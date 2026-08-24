@@ -4,8 +4,8 @@ This repository contains exercises and assignments for GEOG 592.
 
 ## Student information
 
-Name:
+Name: Abigail Kim
 
-ONYEN:
+ONYEN: akkim
 
-GitHub username:
+GitHub username: Abigailkim1
