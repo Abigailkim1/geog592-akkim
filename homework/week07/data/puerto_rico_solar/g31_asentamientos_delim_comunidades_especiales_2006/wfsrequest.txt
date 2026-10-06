@@ -1,0 +1,1 @@
+http://geoserver2.pr.gov/geoserver/pr_geodata/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=pr_geodata:g31_asentamientos_delim_comunidades_especiales_2006&outputFormat=SHAPE-ZIP
