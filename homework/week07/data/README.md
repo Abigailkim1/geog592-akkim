@@ -1,7 +1,9 @@
 # Data explanation 
 
-# Analysis 1
-## Layer 1: Solar sites and transmission lines 
+All geoprocessing techniques used: buffer, intersect, clip, overlay with union
+
+# Analysis 1: Solar sites and transmission lines 
+
 Source: 
 United States Large-Scale Solar Photovoltaic Database from https://www.sciencebase.gov/catalog/item/6671c479d34e84915adb7536 
 "Starting from the Energy Information Administration (EIA) data, locations of LSPV facilities were visually verified using high-resolution aerial imagery; a polygon was drawn around the extent of facility panel arrays, and facility attributes were appended. Quality assurance and control were achieved via team peer review and comparing the USPVDB to other datasets of U.S. solar photovoltaic."
@@ -10,13 +12,29 @@ File names:
 solar_facility_polygons.geojson (vector - polygon)
 solar_facility_attributes.csv (attribute)
 transmission_lines.geojson (vector - line)
+nc_counties.geojson (vector - polygon)
 
 Description: 
-I will join the solar facility attribute data to the polygons. I will buffer the solar facility polygons and see how many transmission lines intersect with them. 
+I will join the solar facility attribute data to the polygons. I will then merge the NC counties dataset to create a NC polygon mask. I will clip the transmission line data to this mask since the dataset is very large and I don't want to have long processing times for later steps. I will buffer the solar facility polygons and see how many transmission lines intersect with them. 
 
-Techniques: buffer, intersect 
-*Attribute join* 
+Techniques: buffer, intersect, clip 
 
+# Analysis 2: Smog analysis 
+Source: 
+Ozone and PM non-attainment areas from https://www.epa.gov/green-book/green-book-8-hour-ozone-2015-area-information
+
+File names: 
+ozone_8hr.geojson (vector - polygon)
+pm10.geojson (vector - polygon)
+pm25.geojson (vector - polygon)
+
+Description: 
+I will merge PM10 and PM2.5 non-attainment areas, and then intersect ozone and PM non-attainment areas to look at places at risk for smog. I will calculate the area of each overlap. 
+
+Techniques: merge, intersect
+*Meaningful tabular result*
+
+# Analysis
 ## Layer 2: 
 Source: 
 Solar technical potential in Puerto Rico from https://data.nlr.gov/submissions/144 
@@ -36,19 +54,4 @@ Description:
 I will join the solar potential data to the census tract data. I will then clip that data to the special communities polygons, which are areas that recieve public funding for building or rehabilitation. 
 
 Techniques: clip
-
-# Analysis 2
-## Layer 3: Smog analysis 
-Source: 
-Ozone and PM non-attainment areas from https://www.epa.gov/green-book/green-book-8-hour-ozone-2015-area-information
-
-File names: 
-ozone_8hr.geojson (vector - polygon)
-pm10.geojson (vector - polygon)
-pm25.geojson (vector - polygon)
-
-Description: 
-I will merge PM10 and PM2.5 non-attainment areas, and then intersect ozone and PM non-attainment areas to look at places at risk for smog. I will calculate the area of each overlap. 
-
-Techniques: merge, intersect
-*Meaningful tabular result*
+*Attribute join* 
