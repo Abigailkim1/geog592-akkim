@@ -3,10 +3,17 @@
 All geoprocessing techniques used: buffer, intersect, clip, overlay with union
 
 # Analysis 1: Solar sites and transmission lines 
+Layers created: 
+#1 - Transmission lines in North Carolina (input: transmission lines, NC outline)
+#2 - Transmission lines intersected with buffered solar polygons (input: solar facility polygons, layer #1)
 
 Source: 
 United States Large-Scale Solar Photovoltaic Database from https://www.sciencebase.gov/catalog/item/6671c479d34e84915adb7536 
 "Starting from the Energy Information Administration (EIA) data, locations of LSPV facilities were visually verified using high-resolution aerial imagery; a polygon was drawn around the extent of facility panel arrays, and facility attributes were appended. Quality assurance and control were achieved via team peer review and comparing the USPVDB to other datasets of U.S. solar photovoltaic."
+
+Transmission lines for the country https://www.arcgis.com/home/item.html?id=d77284d1a97a426eaf960bab4764999c#overview 
+
+NC county polygons https://www.nconemap.gov/datasets/ 
 
 File names: 
 solar_facility_polygons.geojson (vector - polygon)
@@ -20,6 +27,10 @@ I will join the solar facility attribute data to the polygons. I will then merge
 Techniques: buffer, intersect, clip 
 
 # Analysis 2: Smog analysis 
+Layers created: 
+#3 - PM areas (input: PM2.5 polygons and PM10 polygons)
+#4 - PM and ozone (input: Ozone polygons and layer #3)
+
 Source: 
 Ozone and PM non-attainment areas from https://www.epa.gov/green-book/green-book-8-hour-ozone-2015-area-information
 
@@ -36,6 +47,10 @@ Techniques: merge, intersect
 
 # Analysis
 ## Layer 2: 
+Layers created: 
+#6 - Solar technical potential polygons (input: solar tehnical potential attribute data, census tracts)
+#7 - Solar communities (input: layer #7, special communities polygons)
+
 Source: 
 Solar technical potential in Puerto Rico from https://data.nlr.gov/submissions/144 
 "The PR LMI PV Rooftop Technical Potential potential dataset provides estimates of LMI rooftop solar technical potential at the Census Tract level."
@@ -44,6 +59,8 @@ TIGER/Line Shapefiles from https://www.census.gov/cgi-bin/geo/shapefiles/index.p
 
 Special communities data from https://gis.pr.gov/descargaGeodatos/Delimitaciones/Pages/Comunidades.aspx
 "This data layer was created by the Geographic Information System Division of the Puerto Rico Department of Housing to locate "Special Communities" (Comunidades Especiales) that receive funding for the construction or rehabilitation of public housing—as well as for other projects—within these communities."
+
+Puerto Rico polygon https://purl.stanford.edu/wm713fm9130
 
 File names: 
 pr_lmi_solar_potential.csv (attribute)
