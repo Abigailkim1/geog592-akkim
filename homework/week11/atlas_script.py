@@ -4,9 +4,23 @@
 print("Importing packages...")
 
 # Importing packages
-import pandas as pd
 import geopandas as gpd
 import matplotlib.pyplot as plt
+import argparse
+
+print("Parsing arguments...")
+
+parser = argparse.ArgumentParser(
+    description = "A program that makes an Atlas containing the polling places in NC for each county."
+)
+# parser.add_argument("statefp", help="The STATEFP code, for example, North Carolina is STATEFP 37")
+parser.add_argument(
+    ## --args default is not required 
+    "--fill", type=str, default="#017aca",
+    help="Number of greetings (default: blue)"
+)
+args = parser.parse_args()
+fill = args.fill
 
 print("Loading data...")
 
@@ -53,52 +67,19 @@ def highlight(name, ax):
     # Creating an axes object. 
     ncc.plot(ax=ax, edgecolor="grey", facecolor="white")
     # Adding an element onto that axes object. 
-    selected.plot(ax=ax, edgecolor="#000000", facecolor="#017aca", lw=1.5)
+    selected.plot(ax=ax, edgecolor="#000000", facecolor=fill, lw=1.5)
     ax.set_axis_off()
 
 # Map with just county.
 def county_map(name, ax):
     selected = ncc[ncc["name"] == name]
-    selected.plot(ax=ax, edgecolor="#000000", facecolor="#017aca", lw=1.5)
+    selected.plot(ax=ax, edgecolor="#000000", facecolor=fill, lw=1.5)
 
     # Plotting polling places 
     county_polls = ncc_polls[ncc_polls["name"] == name]
     county_polls.plot(ax=ax, color="#FFC400", markersize=20, marker="*")
 
     ax.set_axis_off()
-
-print("Creating a text generator function...")
-
-# Text generator - summary of polling places. 
-def summary(name): 
-    county_polls = ncc_polls[ncc_polls["name"] == name]
-    quantity = f"{name} County has {len(county_polls)} polling places."
-    return quantity
-
-# List of polling places by zip code as a axes object. 
-def poll_addresses(zip_polls):
-    text = ""
-    for i in range(len(zip_polls)): 
-        name = zip_polls["poll_name"].iloc[i]
-        address = zip_polls["address"].iloc[i]
-        poll = f"{name}, {address}\n"
-        text = text + poll
-    return text 
-
-
-def polls_list(name, ax, x, y):
-    county_polls = ncc_polls[ncc_polls["name"] == name]
-    zip_codes = county_polls["zip"].unique()
-    text = ""
-    for i in zip_codes: 
-        zip_polls = county_polls[county_polls["zip"] == i]
-        addresses = poll_addresses(zip_polls)
-        text = text + f"{i}\n{addresses}\n"
-
-    ax.text(x, y, text)
-    ax.set_axis_off()
-
-print("Putting the text into an axes object...")
 
 # If I had more time I would write an if statement to split it into multiple pages if it's a long list. 
 # A function to create each page by combining the elements.
@@ -111,18 +92,11 @@ def page(county, pdf):
 
     county_map(county, axes[0])
     highlight(county, axes[1])
-
+    # TODO: Make the title bold and larger. 
     fig.suptitle(f"{county} County", fontname="Times New Roman", ha="center", va="center", fontsize=12)
-    fig.text(0.5, 0.93, summary(county), fontname="Times New Roman", ha="center", va="center", fontsize=12)
-
-    fig2, ax = plt.subplots(figsize=(8,1))
-    polls_list(county, ax, 0, 0)
 
     pdf.savefig(fig)
     plt.close(fig)
-
-    pdf.savefig(fig2)
-    plt.close(fig2)
 
 print("Creating a PDF...")
 
