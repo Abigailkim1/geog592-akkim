@@ -1,0 +1,10 @@
+# This is a list of files to skip when pushing to GitHub.
+
+# macOS files
+.DS_Store
+._*
+__MACOSX/
+
+# Windows files
+Thumbs.db
+Desktop.ini
